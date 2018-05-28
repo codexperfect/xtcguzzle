@@ -1,0 +1,19 @@
+{
+    "name": "drupal/xtcguzzle",
+    "type": "drupal-module",
+    "description": "Extended Content provides access to external guzzle content from Drupal.",
+    "license": "GPL-2.0+",
+    "homepage": "https://www.drupal.org/project/xtcguzzle",
+    "authors": [
+        {
+            "name": "Alexandre Israël",
+            "homepage": "https://www.drupal.org/u/w3wfr"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/xtcguzzle",
+        "source": "http://cgit.drupalcode.org/xtcguzzle"
+    },
+    "require": {
+    }
+}
