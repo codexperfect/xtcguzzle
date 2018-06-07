@@ -4,7 +4,7 @@ bin/*
 .composer/
 .vagrant/
 
-*.wstoken.yml
+*.xtctoken.yml
 
 web/.htaccess
 web/.eslintrc.json
