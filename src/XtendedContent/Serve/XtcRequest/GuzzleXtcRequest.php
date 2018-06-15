@@ -9,14 +9,14 @@
 namespace Drupal\xtcguzzle\XtendedContent\Serve\XtcRequest;
 
 
-use Drupal\xtc\XtendedContent\Serve\Client\HttpClient;
 use Drupal\xtc\XtendedContent\Serve\XtcRequest\AbstractXtcRequest;
+use Drupal\xtcguzzle\XtendedContent\Serve\Client\GuzzleClient;
 
 class GuzzleXtcRequest extends AbstractXtcRequest
 {
   protected function buildClient(){
     if(isset($this->profile)){
-      $this->client = new HttpClient($this->profile);
+      $this->client = new GuzzleClient($this->profile);
     }
     $this->client->setXtcConfigFromYaml();
     return $this;
