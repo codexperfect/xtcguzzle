@@ -76,7 +76,7 @@ class GuzzleClient extends AbstractClient
   }
 
   /**
-   * @return \GuzzleHttp\Client
+   * @return Client
    */
   public function getClient() {
     return $this->client;
@@ -113,7 +113,7 @@ class GuzzleClient extends AbstractClient
   }
 
   /**
-   * @return \GuzzleHttp\Psr7\Uri
+   * @return Uri
    */
   public function getUri() {
     return $this->uri;
