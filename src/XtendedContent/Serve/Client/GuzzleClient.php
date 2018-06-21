@@ -85,12 +85,16 @@ class GuzzleClient extends AbstractClient
   /**
    * @return ClientInterface
    */
-  public function setXtcConfigFromYaml() : ClientInterface {
-    $client = Config::getConfigs('serve', 'client');
-    $xtctoken = Config::getConfigs('serve', 'xtctoken');
-    $this->xtcConfig = array_merge_recursive($client, $xtctoken);
+  public function setXtcConfig(array $config = []) : ClientInterface {
+    $this->xtcConfig = (!empty($config)) ? $config : $this->getXtcConfigFromYaml();
     $this->buildClient();
     return $this;
+  }
+
+  public function getXtcConfigFromYaml() : ClientInterface {
+    $client = Config::getConfigs('serve', 'client');
+    $xtctoken = Config::getConfigs('serve', 'xtctoken');
+    return array_merge_recursive($client, $xtctoken);
   }
 
   /**

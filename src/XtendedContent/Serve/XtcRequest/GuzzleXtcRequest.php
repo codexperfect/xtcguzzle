@@ -18,7 +18,7 @@ class GuzzleXtcRequest extends AbstractXtcRequest
     if(isset($this->profile)){
       $this->client = new GuzzleClient($this->profile);
     }
-    $this->client->setXtcConfigFromYaml();
+    $this->client->setXtcConfig($this->config);
     return $this;
   }
 }
