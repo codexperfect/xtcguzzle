@@ -13,8 +13,5 @@ use Drupal\xtcguzzle\XtendedContent\Serve\Client\GuzzleClient;
 
 class GuzzleXtcRequest extends AbstractGuzzleXtcRequest
 {
-  protected function getGuzzleClient(){
-    return New GuzzleClient($this->profile);
-  }
 
 }

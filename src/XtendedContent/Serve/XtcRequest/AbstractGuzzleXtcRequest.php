@@ -9,13 +9,14 @@
 namespace Drupal\xtcguzzle\XtendedContent\Serve\XtcRequest;
 
 
+use Drupal\xtc\XtendedContent\API\Config;
 use Drupal\xtc\XtendedContent\Serve\XtcRequest\AbstractXtcRequest;
 use Drupal\xtcguzzle\XtendedContent\Serve\Client\GuzzleClient;
 
 class AbstractGuzzleXtcRequest extends AbstractXtcRequest
 {
   protected function buildClient(){
-    $this->getGuzzleClient();
+    $this->client = $this->getGuzzleClient();
     $this->client->setXtcConfig($this->config);
     return $this;
   }
@@ -23,4 +24,13 @@ class AbstractGuzzleXtcRequest extends AbstractXtcRequest
   protected function getGuzzleClient(){
     return New GuzzleClient($this->profile);
   }
+
+  public function getConfigFromYaml()
+  {
+    $client = Config::getConfigs('serve', 'client');
+    $xtcrequest = Config::getConfigs('serve', 'xtcrequest');
+    $xtctoken = Config::getConfigs('serve', 'xtctoken');
+    return array_merge_recursive($client, $xtcrequest, $xtctoken);
+  }
+
 }
