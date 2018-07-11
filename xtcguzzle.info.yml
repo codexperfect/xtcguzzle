@@ -1,0 +1,6 @@
+name: "Xtended Content for Guzzle"
+type: module
+description: "Xtended Content from Guzzle sources."
+core: '8.x'
+package: "Xtended Content"
+dependencies: []
