@@ -1,0 +1,14 @@
+extensions:
+  - php
+  - inc
+  - module
+
+phpcs:
+  standard: ../../../root/.composer/vendor/drupal/coder/coder_sniffer/Drupal
+
+phpcpd:
+  minLines: 5
+  minTokens: 70
+
+phpstan:
+  level: 0
