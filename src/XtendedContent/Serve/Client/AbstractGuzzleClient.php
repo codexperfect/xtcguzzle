@@ -8,6 +8,7 @@
 
 namespace Drupal\xtcguzzle\XtendedContent\Serve\Client;
 
+use Drupal\Console\Bootstrap\Drupal;
 use Drupal\xtc\XtendedContent\API\Config;
 use Drupal\xtc\XtendedContent\Serve\Client\AbstractClient;
 use Drupal\xtc\XtendedContent\Serve\Client\ClientInterface;
@@ -94,7 +95,7 @@ class AbstractGuzzleClient extends AbstractClient
   public function getXtcConfigFromYaml() : ClientInterface {
     $client = Config::getConfigs('serve', 'client');
     $xtctoken = Config::getConfigs('serve', 'xtctoken');
-    return array_merge_recursive($client, $xtctoken);
+    return (!empty($xtctoken)) ? array_merge_recursive($client, $xtctoken) : $client;
   }
 
   /**
@@ -136,19 +137,16 @@ class AbstractGuzzleClient extends AbstractClient
    */
   public function setUrl() : ClientInterface
   {
-    $this->url = $this->buildWSPath($this->clientProfile['env']);
+    $server = $this->getServer();
+    $env =  $server['path'][$server['env']];
+    $protocole = ($env['tls']) ? 'https' : 'http' ;
+    $port = (isset($env['port'])) ? ':'.$env['port'] : '';
+    $this->url =  $protocole.'://'.$env['server'].$port.'/'.$env['endpoint'].'/';
     return $this;
   }
 
-  /**
-   * @param string $environment
-   *
-   * @return string
-   */
-  private function buildWSPath($environment){
-    $env =  $this->getEnvironment($environment);
-    $protocole = ($env['tls']) ? 'https' : 'http' ;
-    $port = (isset($env['port'])) ? ':'.$env['port'] : '';
-    return $protocole.'://'.$env['server'].$port.'/'.$env['endpoint'].'/';
+  protected function getServer(){
+    return $this->xtcConfig['xtc']['serve_client']['server'][$this->getInfo('server')];
   }
+
 }
