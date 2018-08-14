@@ -60,9 +60,12 @@ class AbstractGuzzleClient extends AbstractClient
     $this->setClientProfile();
     $this->setUrl();
 
-    $options = $this->clientProfile['options'];
-    $options['base_uri'] = $this->getUrl();
-    $options['headers']['auth_token'] = $this->getToken();
+    $options = [];
+    if(!empty($this->clientProfile['options'])){
+      $options = $this->clientProfile['options'];
+      $options['base_uri'] = $this->getUrl();
+      $options['headers']['auth_token'] = $this->getToken();
+    }
     $this->options = $options;
     return $this;
   }
