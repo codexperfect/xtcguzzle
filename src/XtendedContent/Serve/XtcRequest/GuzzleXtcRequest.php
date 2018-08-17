@@ -9,8 +9,6 @@
 namespace Drupal\xtcguzzle\XtendedContent\Serve\XtcRequest;
 
 
-use Drupal\xtcguzzle\XtendedContent\Serve\Client\GuzzleClient;
-
 class GuzzleXtcRequest extends AbstractGuzzleXtcRequest
 {
 
