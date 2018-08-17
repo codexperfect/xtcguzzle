@@ -21,12 +21,12 @@ class AbstractGuzzleClient extends AbstractClient
   /**
    * @var string
    */
-  private $url;
+  protected $url;
 
   /**
    * @var Uri
    */
-  private $uri;
+  protected $uri;
 
   /**
    * @var Client
@@ -63,9 +63,9 @@ class AbstractGuzzleClient extends AbstractClient
     $options = [];
     if(!empty($this->clientProfile['options'])){
       $options = $this->clientProfile['options'];
-      $options['base_uri'] = $this->getUrl();
-      $options['headers']['auth_token'] = $this->getToken();
     }
+    $options['base_uri'] = $this->getUrl();
+    $options['headers']['auth_token'] = $this->getToken();
     $this->options = $options;
     return $this;
   }
