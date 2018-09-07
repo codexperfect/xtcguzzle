@@ -28,9 +28,8 @@ class AbstractGuzzleXtcRequest extends AbstractXtcRequest
   public function getConfigFromYaml()
   {
     $client = Config::getConfigs('serve', 'client');
-    $xtcrequest = Config::getConfigs('serve', 'xtcrequest');
     $xtctoken = Config::getConfigs('serve', 'xtctoken');
-    return array_merge_recursive($client, $xtcrequest, $xtctoken);
+    return array_merge_recursive($client, $xtctoken);
   }
 
 }
