@@ -344,14 +344,6 @@ prepros.cfg
 front-src/node_modules/
 ## front-static/*
 
-## CSOEC
-web/themes/custom/sanef/style/
-web/themes/custom/sanef/font/
-web/themes/custom/sanef/img/
-web/themes/custom/sanef/script/
-web/themes/custom/theme-sanef/style/style.css
-web/themes/custom/theme-sanef/style/style.css.map
-
 ## EDITOR CONFIG
 .vscode
 
