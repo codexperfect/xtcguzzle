@@ -26,6 +26,39 @@ class AbstractGuzzleXtcRequest extends AbstractXtcRequest
     return New GuzzleClient($this->profile);
   }
 
+  public function setConfigfromPlugins(array $config = [])
+  {
+    $name = $this->profile;
+    $profile = \Drupal::service('plugin.manager.xtc_profile')
+      ->getDefinition($name)
+    ;
+
+    $settings = Settings::get('csoec.serve_client')['xtc']['serve_client']['server'];
+
+    $server = \Drupal::service('plugin.manager.xtc_server')
+      ->getDefinition($profile['server'])
+    ;
+
+    if(!empty($settings[$profile['server']]['env'])){
+      $server['env'] = $settings[$profile['server']]['env'];
+    }
+
+    $this->webservice = [
+      'type' => $profile['type'],
+      'env' => $server['env'],
+      'connection' => $server['connection'],
+      'method' => $profile['method'],
+    ];
+
+    $xtctoken = Config::getConfigs('serve', 'xtctoken');
+    $this->config['xtc']['serve_client'][$name] = $profile;
+    $this->config['xtc']['serve_client'][$name]['token'] = $xtctoken['xtc']['serve_client'][$name]['token'];
+    $this->config['xtc']['serve_client']['server'][$profile['server']] = $server;
+
+    $this->buildClient();
+    return $this;
+  }
+
   public function getConfigFromYaml()
   {
     $client = Config::getConfigs('serve', 'client');
