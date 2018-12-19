@@ -46,13 +46,13 @@ class AbstractGuzzleXtcRequest extends AbstractXtcRequest
     $this->webservice = [
       'type' => $profile['type'],
       'env' => $server['env'],
-      'connection' => $server['connection'],
+      'connection' => $server['connection'] ?? '',
       'method' => $profile['method'],
     ];
 
     $xtctoken = Config::getConfigs('serve', 'xtctoken');
     $this->config['xtc']['serve_client'][$name] = $profile;
-    $this->config['xtc']['serve_client'][$name]['token'] = $xtctoken['xtc']['serve_client'][$name]['token'];
+    $this->config['xtc']['serve_client'][$name]['token'] = $xtctoken['xtc']['serve_client'][$name]['token'] ?? '';
     $this->config['xtc']['serve_client']['server'][$profile['server']] = $server;
 
     $this->buildClient();
