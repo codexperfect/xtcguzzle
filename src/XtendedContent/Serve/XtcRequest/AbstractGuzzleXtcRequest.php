@@ -29,16 +29,9 @@ class AbstractGuzzleXtcRequest extends AbstractXtcRequest
   public function setConfigfromPlugins(array $config = [])
   {
     $name = $this->profile;
-    $profile = \Drupal::service('plugin.manager.xtc_profile')
-      ->getDefinition($name)
-    ;
-
+    $profile = Config::loadXtcProfile($name);
     $settings = Settings::get('csoec.serve_client')['xtc']['serve_client']['server'];
-
-    $server = \Drupal::service('plugin.manager.xtc_server')
-      ->getDefinition($profile['server'])
-    ;
-
+    $server = Config::loadXtcServer($profile['server']);
     if(!empty($settings[$profile['server']]['env'])){
       $server['env'] = $settings[$profile['server']]['env'];
     }
