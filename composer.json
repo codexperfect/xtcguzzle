@@ -1,7 +1,7 @@
 {
     "name": "drupal/xtcguzzle",
     "type": "drupal-module",
-    "description": "Extended Content provides access to external guzzle content from Drupal.",
+    "description": "Extended Content Guzzle provides access to external guzzle content from Drupal.",
     "license": "GPL-2.0+",
     "homepage": "https://www.drupal.org/project/xtcguzzle",
     "authors": [

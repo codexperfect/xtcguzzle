@@ -30,7 +30,7 @@ class AbstractGuzzleXtcRequest extends AbstractXtcRequest
   {
     $name = $this->profile;
     $profile = Config::loadXtcProfile($name);
-    $settings = Settings::get('csoec.serve_client')['xtc']['serve_client']['server'];
+    $settings = Settings::get('xtc.serve_client')['xtc']['serve_client']['server'];
     $server = Config::loadXtcServer($profile['server']);
     if(!empty($settings[$profile['server']]['env'])){
       $server['env'] = $settings[$profile['server']]['env'];
@@ -59,7 +59,7 @@ class AbstractGuzzleXtcRequest extends AbstractXtcRequest
     $params = array_merge_recursive($client, $xtctoken);
 
     // Enable config override from settings.local.php
-    $settings = Settings::get('csoec.serve_client');
+    $settings = Settings::get('xtc.serve_client');
     if(!empty($settings)){
       return array_replace_recursive($params, $settings);
     }
