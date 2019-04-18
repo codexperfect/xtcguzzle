@@ -1,0 +1,7 @@
+demo:
+  label: 'Démo'
+  description: ''
+  type: 'guzzle'
+  verb: 'get'
+  server: 'smartjson'
+  method: '577304005.641544'

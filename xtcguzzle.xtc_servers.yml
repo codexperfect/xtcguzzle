@@ -1,0 +1,14 @@
+smartjson:
+  label: 'Smart JSON Editor'
+  description: ''
+  type: 'guzzle'
+  env: 'prod'
+  options:
+    verify: false
+    timeout: 5
+  path:
+    prod:
+      tls: false
+      server: "host.docker.internal"
+      port: 8000
+      endpoint: ""
