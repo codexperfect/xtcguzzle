@@ -9,7 +9,7 @@
 namespace Drupal\xtcguzzle\XtendedContent\Serve\XtcRequest;
 
 
-class GuzzleXtcRequest extends AbstractGuzzleXtcRequest
+class GuzzleXtcRequest extends AbstractGuzzleXtcRequestOFF
 {
 
 }

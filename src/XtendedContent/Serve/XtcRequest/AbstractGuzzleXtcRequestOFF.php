@@ -11,10 +11,10 @@ namespace Drupal\xtcguzzle\XtendedContent\Serve\XtcRequest;
 
 use Drupal\Core\Site\Settings;
 use Drupal\xtc\XtendedContent\API\Config;
-use Drupal\xtc\XtendedContent\Serve\XtcRequest\AbstractXtcRequest;
+use Drupal\xtc\XtendedContent\Serve\XtcRequest\AbstractXtcRequestOFF;
 use Drupal\xtcguzzle\XtendedContent\Serve\Client\GuzzleClient;
 
-class AbstractGuzzleXtcRequest extends AbstractXtcRequest
+class AbstractGuzzleXtcRequestOFF extends AbstractXtcRequestOFF
 {
   protected function buildClient(){
     $this->client = $this->getGuzzleClient();
