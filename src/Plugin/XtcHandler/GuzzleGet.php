@@ -44,13 +44,24 @@ class GuzzleGet extends GuzzleBase
 
   public function process() {
     $this->buildClient();
-    $stream = $this->client->get($this->uri);
-    $this->content = $stream->getBody()->getContents();
+    $this->getStream();
     return $this;
   }
 
   public function values() {
     return Json::decode($this->content) ?? null;
+  }
+
+  protected function getStream(){
+    $qs = \Drupal::request()->getQueryString();
+    $request = (!empty($qs)) ? $this->url . '?' .$qs : $this->url;
+    try{
+      $stream = $this->client->get($request);
+      $this->content = $stream->getBody()->getContents();
+    }
+    catch (\Exception $exception){
+      $this->content = Json::encode(['Exception' => $exception->getMessage()]);
+    }
   }
 
   /**
