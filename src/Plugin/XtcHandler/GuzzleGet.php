@@ -14,6 +14,7 @@ use Drupal\xtc\PluginManager\XtcHandler\XtcHandlerPluginBase;
 use Drupal\xtc\XtendedContent\API\XtcServer;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Client;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Plugin implementation of the xtc_handler.
@@ -24,8 +25,7 @@ use GuzzleHttp\Client;
  *   description = @Translation("Guzzle Get for XTC description.")
  * )
  */
-class GuzzleGet extends GuzzleBase
-{
+class GuzzleGet extends GuzzleBase {
 
   /**
    * @var string
@@ -48,20 +48,24 @@ class GuzzleGet extends GuzzleBase
     return $this;
   }
 
-  public function values() {
-    return Json::decode($this->content) ?? null;
+  protected function buildClient(): GuzzleBase {
+    $this->client = New Client($this->options);
+    return $this;
   }
 
-  protected function getStream(){
+  protected function getStream() {
     $qs = \Drupal::request()->getQueryString();
-    $request = (!empty($qs)) ? $this->url . '?' .$qs : $this->url;
-    try{
+    $request = (!empty($qs)) ? $this->url . '?' . $qs : $this->url;
+    try {
       $stream = $this->client->get($request);
       $this->content = $stream->getBody()->getContents();
-    }
-    catch (\Exception $exception){
+    } catch (\Exception $exception) {
       $this->content = Json::encode(['Exception' => $exception->getMessage()]);
     }
+  }
+
+  public function values() {
+    return Json::decode($this->content) ?? NULL;
   }
 
   /**
@@ -69,7 +73,7 @@ class GuzzleGet extends GuzzleBase
    *
    * @return \Drupal\xtc\PluginManager\XtcHandler\XtcHandlerPluginBase
    */
-  public function setOptions($options = []) : XtcHandlerPluginBase {
+  public function setOptions($options = []): XtcHandlerPluginBase {
     parent::setOptions($options);
     $this->setUrl();
     $this->options['base_uri'] = $this->getUrl();
@@ -80,29 +84,47 @@ class GuzzleGet extends GuzzleBase
   /**
    * @return string
    */
-  public function getToken() : string
-  {
-//    return (isset($this->clientProfile['token'])) ? $this->clientProfile['token'] : '';
-    return '';
+  public function getUrl() {
+    return $this->url;
   }
 
-  protected function buildClient() : GuzzleBase {
-    $this->client = New Client($this->options);
-    return $this;
-  }
-
-  public function setUrl() : GuzzleBase {
+  public function setUrl(): GuzzleBase {
     $server = XtcServer::load($this->profile['server']);
-    $this->method = $this->profile['method'];
     $env = $server['path'][$server['env']];
+
+    if ('self' == $env['server']) {
+      $server = \Drupal::request()->server;
+      $protocole = ($server->get('HTTPS')) ? 'https' : 'http';
+      $domain = ($server->get('HTTP_HOST')) ?? '';
+      $port = ($server->get('SERVER_PORT')) ? ':' . $server->get('SERVER_PORT') : '';
+    }
+    else {
+      $protocole = ($env['tls']) ? 'https' : 'http';
+      $domain = $env['server'];
+      $port = (!empty($env['port'])) ? ':' . $env['port'] : '';
+    }
+    $base_url = $protocole . '://' . $domain . $port;
+
+    if (empty($this->method) && !empty($this->options['method'])) {
+      $this->method = $this->options['method'];
+    }
+    if (empty($this->method) && !empty($this->profile['method'])) {
+      $this->method = $this->profile['method'];
+    }
     $this->endpoint = $env['endpoint'];
-    $protocole = ($env['tls']) ? 'https' : 'http';
-    $port = (!empty($env['port'])) ? ':' . $env['port'] : '';
     $this->uri =
       (!empty($this->endpoint)) ? $this->endpoint . '/' . $this->method
         : $this->method;
-    $this->url = $protocole . '://' . $env['server'] . $port . '/' . $this->uri;
+    $this->url = $base_url . '/' . $this->uri;
     return $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getToken(): string {
+    //    return (isset($this->clientProfile['token'])) ? $this->clientProfile['token'] : '';
+    return '';
   }
 
   /**
@@ -110,14 +132,6 @@ class GuzzleGet extends GuzzleBase
    */
   public function getUri() {
     return $this->uri;
-  }
-
-  /**
-   * @return string
-   */
-  public function getUrl()
-  {
-    return $this->url;
   }
 
 
