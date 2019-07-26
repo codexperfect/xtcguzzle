@@ -14,7 +14,6 @@ use Drupal\xtc\PluginManager\XtcHandler\XtcHandlerPluginBase;
 use Drupal\xtc\XtendedContent\API\XtcServer;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Client;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Plugin implementation of the xtc_handler.
